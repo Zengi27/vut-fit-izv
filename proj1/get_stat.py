@@ -14,7 +14,6 @@ from download import DataDownloader
 def plot_stat(data_source,
               fig_location=None,
               show_figure=False):
-    
 
     accident_cause = ["Přerušovaná žlutá", "Semafor mimo provoz", 
                       "Dopravními značky", "Přenosné dopravní značky", "Nevyznačena", "Žádná úprava"]
@@ -30,27 +29,27 @@ def plot_stat(data_source,
     relative_data = []
 
     # iterate through types of accident
-    for cause in range(len(accident_types)) :
+    for cause in range(len(accident_types)):
         tmp_arr = []
         arr_in_percentage = []
         counter = 0
 
         # iterate through regions
-        for curr_reg in range(len(regions)) :
+        for curr_reg in range(len(regions)):
             x = np.argwhere((data_source["region"] == regions[curr_reg]) & (data_source["p24"] == cause))
             
             tmp_arr.append(len(x))
             
-            # count of accident for one of couse
+            # count of accident for one of cause
             counter += len(x)
 
         absolut_data.append(tmp_arr)
 
         # convert number into percentages 
-        for num in tmp_arr :
-            if num == 0 :
+        for num in tmp_arr:
+            if num == 0:
                 arr_in_percentage.append(np.nan)
-            else :
+            else:
                 arr_in_percentage.append(num / counter * 100)
         
         relative_data.append(arr_in_percentage)
@@ -62,7 +61,6 @@ def plot_stat(data_source,
     absolut_data.append(absolut_data[0])
     absolut_data.remove(absolut_data[0])
 
-    
     fig, ax = plt.subplots(2)
     fig.set_figheight(8.27)
     fig.set_figwidth(11.69)
@@ -83,7 +81,6 @@ def plot_stat(data_source,
 
     ax[0].set_title("Absolutně")
 
-
     # setting of second plot
     im_1 = ax[1].imshow(relative_data, cmap="plasma")
 
@@ -102,19 +99,19 @@ def plot_stat(data_source,
     fig.tight_layout()
 
     # save graph into folder 
-    if fig_location is not None :
+    if fig_location is not None:
         dir_name = os.path.dirname(fig_location)
 
-        if not os.path.isdir(dir_name) :
+        if not os.path.isdir(dir_name):
             os.makedirs(dir_name)
 
         plt.savefig(fig_location)        
 
-    if show_figure == True :
+    if show_figure:
         plt.show()
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser()
 
     arg_parser.add_argument("--fig_location", help="Path for store figure")
